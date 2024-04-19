@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:sehety/core/function/routing.dart';
 import 'package:sehety/core/util/colors.dart';
 import 'package:sehety/core/util/text_style.dart';
 import 'package:sehety/core/widget/custom_button.dart';
+import 'package:sehety/features/auth/presentation/view/registration_view.dart';
 
-class Welcome extends StatelessWidget {
-  const Welcome({super.key});
+class WelcomeView extends StatelessWidget {
+  const WelcomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +20,10 @@ class Welcome extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           Positioned(
-            top: 60,
+            top: 100,
             right: 20,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'اهلا بيك',
@@ -40,10 +42,7 @@ class Welcome extends StatelessWidget {
                 // height: 300,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [AppColors.primaryColor, AppColors.greyColor],
-                        end: Alignment.topCenter,
-                        begin: Alignment.bottomCenter),
+                    color: AppColors.primaryColor.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(20)),
                 child: Column(
                   children: [
@@ -57,14 +56,29 @@ class Welcome extends StatelessWidget {
                       height: 70,
                       width: 330,
                       text: 'دكتور',
-                      onPressed: () {},
+                      textColor: AppColors.blackColor,
+                      onPressed: () {
+                        navigatorTo(
+                            context,
+                             Registration(
+                              index: 0,
+                            ));
+                      },
                     ),
                     const Gap(15),
                     CustomButton(
                       height: 70,
                       width: 330,
                       text: 'مريض',
-                      onPressed: () {},
+                      
+                      textColor: AppColors.blackColor,
+                      onPressed: () {
+                        navigatorTo(
+                            context,
+                             Registration(
+                              index: 1,
+                            ));
+                      },
                     ),
                     const Gap(15),
                   ],
