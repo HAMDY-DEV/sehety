@@ -15,3 +15,11 @@ void navigatorToReplacement(context, view) {
     },
   ));
 }
+
+void navigatorToAndRemoveUntil(context, view) {
+  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+    builder: (context) {
+      return view;
+    },
+  ),(route)=>false);
+}

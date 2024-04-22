@@ -9,39 +9,36 @@ import 'package:sehety/core/widget/custom_button.dart';
 import 'package:sehety/core/widget/show_loading_and_error.dart';
 import 'package:sehety/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:sehety/features/auth/presentation/manager/auth_state.dart';
-import 'package:sehety/features/auth/presentation/view/forgot_password.dart';
-import 'package:sehety/features/auth/presentation/view/registr_view.dart';
+import 'package:sehety/features/auth/presentation/view/doctor_registr_view.dart';
+import 'package:sehety/features/auth/presentation/view/login_view.dart';
 import 'package:sehety/features/auth/presentation/widget/custom_text_form_field.dart';
 
 // ignore: must_be_immutable
-class LoginView extends StatefulWidget {
-  const LoginView({super.key, required this.index});
+class Registr extends StatefulWidget {
+  const Registr({super.key, required this.index});
   final int index;
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<Registr> createState() => _RegistrState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _RegistrState extends State<Registr> {
   GlobalKey<FormState> key = GlobalKey<FormState>();
   bool visibilPassword = true;
-
   var emailController = TextEditingController();
   var passwodController = TextEditingController();
+  var nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     String name = widget.index == 0 ? 'دكتور' : 'مريض';
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is LoginSuccessStat) {
-          Navigator.pop(context);
-          Navigator.pop(context);
-          Navigator.pop(context);
-          showError(context: context, textError: 'Success');
-        } else if (state is LoginErrorStat) {
+        if (state is RegisterErrorStat) {
           Navigator.pop(context);
           showError(context: context, textError: state.error);
+        } else if (state is RegisterSuccessStat) {
+          navigatorToAndRemoveUntil(context, const DoctorRegistrView());
         } else {
           showLoading(context: context);
         }
@@ -57,14 +54,31 @@ class _LoginViewState extends State<LoginView> {
                   const Gap(40),
                   Image.asset(height: 200, width: 200, AssetImages.appIcon),
                   Text(
-                    'سجل دخول الان كـ "$name"',
+                    'سجل حساب جديد كـ "$name"',
                     style: getBodyStyle(context,
                         color: AppColors.primaryColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w800),
                   ),
-                  const Gap(25),
+                  //name
+                  const Gap(30),
+                  CustomTextFormField(
+                    validator: (data) {
+                      if (data!.isEmpty) {
+                        return 'ادخل الاسم الخاص بك';
+                      }
+                      return null;
+                    },
+                    hintText: 'الاسم',
+                    controller: nameController,
+                    suffixIcon: const SizedBox(),
+                    prefixIcon: Icon(
+                      Icons.person_2_sharp,
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
                   //email
+                  const Gap(25),
                   CustomTextFormField(
                     validator: (data) {
                       if (data!.isEmpty) {
@@ -110,31 +124,26 @@ class _LoginViewState extends State<LoginView> {
                       color: AppColors.primaryColor,
                     ),
                   ),
-                  const Gap(10),
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: GestureDetector(
-                        onTap: () {
-                          navigatorTo(
-                              context, ForgotPasswordView(index: widget.index));
-                        },
-                        child: Text(
-                          'نسيت كلمة السر ؟',
-                          style: getBodyStyle(context,
-                              color: AppColors.primaryColor),
-                        ),
-                      )),
                   //Button Register an account'
                   const Gap(25),
                   CustomButton(
                     height: 45,
-                    text: 'تسجيل دخول',
+                    text: 'تسجيل حساب',
                     onPressed: () {
                       if (key.currentState!.validate()) {
-                        context.read<AuthCubit>().login(
-                              email: emailController.text,
-                              password: passwodController.text,
-                            );
+                        if (widget.index == 0) {
+                          context.read<AuthCubit>().registerDoctor(
+                                email: emailController.text,
+                                password: passwodController.text,
+                                name: nameController.text,
+                              );
+                        } else {
+                          context.read<AuthCubit>().registerPatient(
+                                email: emailController.text,
+                                password: passwodController.text,
+                                name: nameController.text,
+                              );
+                        }
                       } else {}
                     },
                     color: AppColors.primaryColor,
@@ -151,12 +160,12 @@ class _LoginViewState extends State<LoginView> {
                           onPressed: () {
                             navigatorTo(
                                 context,
-                                Registr(
+                                LoginView(
                                   index: widget.index,
                                 ));
                           },
                           child: Text(
-                            'سجل الان',
+                            'سجل دخول',
                             style: getBodyStyle(context,
                                 color: AppColors.primaryColor),
                           ))

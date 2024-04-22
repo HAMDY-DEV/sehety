@@ -4,7 +4,8 @@ import 'package:sehety/core/function/routing.dart';
 import 'package:sehety/core/util/colors.dart';
 import 'package:sehety/core/util/text_style.dart';
 import 'package:sehety/core/widget/custom_button.dart';
-import 'package:sehety/features/auth/presentation/view/registration_view.dart';
+import 'package:sehety/features/auth/presentation/view/doctor_registr_view.dart';
+import 'package:sehety/features/auth/presentation/view/registr_view.dart';
 
 class WelcomeView extends StatelessWidget {
   const WelcomeView({super.key});
@@ -60,8 +61,8 @@ class WelcomeView extends StatelessWidget {
                       onPressed: () {
                         navigatorTo(
                             context,
-                             Registration(
-                              index: 0,
+                            const DoctorRegistrView(
+                             // index: 0,
                             ));
                       },
                     ),
@@ -70,12 +71,11 @@ class WelcomeView extends StatelessWidget {
                       height: 70,
                       width: 330,
                       text: 'مريض',
-                      
                       textColor: AppColors.blackColor,
                       onPressed: () {
                         navigatorTo(
                             context,
-                             Registration(
+                            const Registr(
                               index: 1,
                             ));
                       },

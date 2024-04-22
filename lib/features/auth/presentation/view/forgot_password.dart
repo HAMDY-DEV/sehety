@@ -9,15 +9,14 @@ import 'package:sehety/features/auth/presentation/view/login_view.dart';
 import 'package:sehety/features/auth/presentation/widget/custom_text_form_field.dart';
 
 // ignore: must_be_immutable
-class Registration extends StatelessWidget {
-  Registration({super.key, required this.index});
+class ForgotPasswordView extends StatelessWidget {
+  ForgotPasswordView({super.key, required this.index});
   final int index;
-  @override
-  GlobalKey<FormState> key = GlobalKey<FormState>();
 
   @override
+  GlobalKey<FormState> key = GlobalKey<FormState>();
+  @override
   Widget build(BuildContext context) {
-    String name = index == 0 ? 'دكتور' : 'مريض';
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -26,31 +25,17 @@ class Registration extends StatelessWidget {
             key: key,
             child: Column(
               children: [
-                const Gap(40),
+                const Gap(90),
                 Image.asset(height: 200, width: 200, AssetImages.appIcon),
+
                 Text(
-                  'سجل حساب جديد كـ "$name"',
+                  'استرجاع الحساب',
                   style: getBodyStyle(context,
                       color: AppColors.primaryColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w800),
                 ),
-                //name
-                const Gap(30),
-                CustomTextFormField(
-                  validator: (data) {
-                    if (data!.isEmpty) {
-                      return 'ادخل الاسم الخاص بك';
-                    }
-                    return null;
-                  },
-                  hintText: 'الاسم',
-                  suffixIcon: const SizedBox(),
-                  prefixIcon: Icon(
-                    Icons.person_2_sharp,
-                    color: AppColors.primaryColor,
-                  ),
-                ),
+
                 //email
                 const Gap(25),
                 CustomTextFormField(
@@ -67,25 +52,7 @@ class Registration extends StatelessWidget {
                     color: AppColors.primaryColor,
                   ),
                 ),
-                //passwoed
-                const Gap(25),
-                CustomTextFormField(
-                  validator: (data) {
-                    if (data!.isEmpty) {
-                      return 'ادخل كلمة السر';
-                    }
-                    return null;
-                  },
-                  hintText: '*********',
-                  suffixIcon: Icon(
-                    Icons.visibility,
-                    color: AppColors.primaryColor,
-                  ),
-                  prefixIcon: Icon(
-                    Icons.lock,
-                    color: AppColors.primaryColor,
-                  ),
-                ),
+
                 //Button Register an account'
                 const Gap(25),
                 CustomButton(
